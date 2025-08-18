@@ -8,32 +8,15 @@ let computerWins = 0;
 
 let body = document.body;
 
-let buttondiv = document.createElement("div");
-
-let button1 = document.createElement("button");
-let button2 = document.createElement("button");
-let button3 = document.createElement("button");
-
-buttondiv.appendChild(button1);
-buttondiv.appendChild(button2);
-buttondiv.appendChild(button3);
-body.appendChild(buttondiv);
-
-button1.id = "rock";
-button2.id = "paper";
-button3.id = "scissors";
-
 let buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
-    button.textContent = button.id;
     button.onclick = onClick;
 })
 
 // Function that activates when button is pressed
 function onClick(e) {
-    console.log(e.target.id);
+    playGame(e);
 }
-
 
 
 function playGame() {
