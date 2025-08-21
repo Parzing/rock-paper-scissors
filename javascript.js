@@ -6,6 +6,7 @@ const PLAYER = 1;
 const TIE = 0;
 const COMPUTER = -1;
 
+let gameFinished = false;
 let playerWins = 0;
 let computerWins = 0;
 let computerOption = document.getElementById("computerchoice");
@@ -13,8 +14,15 @@ let scoreboard = document.getElementById("scoreboard");
 let body = document.body;
 let buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
-    button.onclick = function(e) {playGame(button.id)}
+    button.onclick = function(e) {
+        if (gameFinished) {
+            return;
+        }
+        playGame(button.id)
+    }
 })
+computerOption.onclick = function (e) {}
+
  
 scoreboard.textContent = "Player 0:0 Computer";
 
@@ -25,7 +33,6 @@ function playGame(choice) {
     updateComputerText(computerChoice);
     victor = playRound(playerChoice, computerChoice);
     updateScoreboard(victor);
-
 }
 
 function updateScoreboard(victor) {
@@ -43,7 +50,12 @@ function updateScoreboard(victor) {
 }
 
 function finalizeGame() {
-    
+    if (computerWins == 5) {
+        scoreboard.textContent = `Computer wins ${computerWins}:${playerWins}`;
+    } else if (playerWins == 5){
+        scoreboard.textContent = `Player wins ${computerWins}:${playerWins}`;
+    }
+    gameFinished = true;
 }
 
 function updateComputerText(computerChoice) {
