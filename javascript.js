@@ -2,88 +2,82 @@ var maxScore = 0;
 const ROCK = 0;
 const PAPER = 1;
 const SCISSORS = 2;
+const PLAYER = 1;
+const TIE = 0;
+const COMPUTER = -1;
 
 let playerWins = 0;
 let computerWins = 0;
-
+let computerOption = document.getElementById("computerchoice");
+let scoreboard = document.getElementById("scoreboard");
 let body = document.body;
-
 let buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
-    button.onclick = onClick;
+    button.onclick = function(e) {playGame(button.id)}
 })
+ 
+scoreboard.textContent = "Player 0:0 Computer";
 
-// Function that activates when button is pressed
-function onClick(e) {
-    playGame(e);
-}
-
-
-function playGame() {
-
-    let humanChoice;
-    let computerChoice;
-
-    while(maxScore < 5) {
-        humanChoice = getHumanChoice();
-        computerChoice = getComputerChoice();
-        playRound(humanChoice, computerChoice);
-        console.log("Player - " + playerWins + "    Computer - " + computerWins);
-        maxScore = Math.max(playerWins, computerWins);
-    }
-
-    if(computerWins == 5) {
-        console.log("Computer wins!");
-    } else {
-        console.log("Human wins!");
-    }
+// On a click, this function will activate
+function playGame(choice) {
+    let playerChoice = getPlayerChoice(choice);
+    let computerChoice = getComputerChoice();
+    updateComputerText(computerChoice);
+    victor = playRound(playerChoice, computerChoice);
+    updateScoreboard(victor);
 
 }
 
-
-function playRound(humanChoice, computerChoice) {
-    if(humanChoice == computerChoice) {
-        return;
-    }
-
-    if(humanChoice == SCISSORS && computerChoice == PAPER ||
-        humanChoice == PAPER && computerChoice == ROCK ||
-        humanChoice == ROCK && computerChoice == SCISSORS) {
+function updateScoreboard(victor) {
+    if(victor == COMPUTER) {
+        computerWins++;
+    } else if (victor == PLAYER) {
         playerWins++;
+    }
+    if (computerWins == 5 || playerWins == 5) {
+        finalizeGame();
         return;
+    }
+    scoreboard.textContent = `Player ${playerWins}:${computerWins} Computer`;
+
+}
+
+function finalizeGame() {
+    
+}
+
+function updateComputerText(computerChoice) {
+    if(computerChoice == ROCK) {
+        computerOption.textContent = "🪨";
+    } else if (computerChoice == SCISSORS) {
+        computerOption.textContent = "✂️";
+    } else {
+        computerOption.textContent = "🧻";
+    }
+}
+
+function getPlayerChoice(choice) {
+    if(choice == 'rock') {
+        return ROCK;
+    } else if (choice == 'scissors'){
+        return SCISSORS;
+    } else {
+        return PAPER;
+    }
+}
+
+function playRound(playerChoice, computerChoice) {
+    if(playerChoice == computerChoice) {
+        return TIE;
+    }
+
+    if(playerChoice == SCISSORS && computerChoice == PAPER ||
+        playerChoice == PAPER && computerChoice == ROCK ||
+        playerChoice == ROCK && computerChoice == SCISSORS) {
+        return PLAYER;
     }
     else{
-        computerWins++;
-    }
-}
-
-function getHumanChoice() {
-    var choice;
-    choice = prompt("Enter your choice as \"Rock\", \"Paper\", or \"Scissors\": ");
-
-    while(!choiceValid()){
-        console.log("Sorry, that was not a valid input.\n");
-        choice = prompt("Enter your choice as \"Rock\", \"Paper\", or \"Scissors\": ");
-
-    }
-    
-    if (choice == "Rock") {
-        choice = ROCK;
-    }
-    if (choice == "Paper") {
-        choice = PAPER;
-    }
-    if (choice == "Scissors") {
-        choice = SCISSORS;
-    }
-
-    return choice;
-
-    function choiceValid() {
-        if(choice == "Rock" || choice == "Paper" || choice == "Scissors") {
-            return true;
-        }
-        return false;
+        return COMPUTER;
     }
 }
 

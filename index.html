@@ -8,16 +8,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1 id = "demo">Rock Paper Scissors Demo</h1>
+    <div class="header">
+        <h1>Rock Paper Scissors Demo</h1>
+    </div>
+    <div id="scoreboard">
+        
+    </div>
     <div id = "game">
         <div id = "playerdiv">
-            <button id = "rock">🪨</button>
-            <button id = "paper">🧻</button>
-            <button id = "scissors">✂️</button>
+            <button class = "icon selectable" id = "rock">🪨</button>
+            <button class = "icon selectable" id = "paper">🧻</button>
+            <button class = "icon selectable" id = "scissors">✂️</button>
         </div>
         <div id = "computerdiv">
-            <div>Computer picked:</div>
-            <div id = "computerchoice">?</div>
+            <div class = "computerheader">Computer picked:</div>
+            <div class = "icon" id = "computerchoice">?</div>
         </div>
     </div>
 </body>
